@@ -47,7 +47,3 @@ variable "type" {
   description = "Type of controller license.  Valid values are MeteredPlatinumCopilot, BYOL and Custom"
 
 }
-
-variable "aws_account_id" {
-  default = "193927978760"
-}
