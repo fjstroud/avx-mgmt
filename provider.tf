@@ -10,7 +10,15 @@ terraform {
     }
   }
 }
-
+terraform {
+  cloud {
+    hostname     = "app.terraform.io"
+    organization = "cloudsilverlining"
+    workspaces {
+      tags = ["avx-controller"]
+    }
+  }
+}
 
 provider "aviatrix" {
   username      = "admin"
