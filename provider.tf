@@ -26,3 +26,7 @@ provider "aviatrix" {
   controller_ip = module.aviatrix-controller-build.public_ip
 }
 
+provider "aws" {
+  region = "ap-southeast-2"
+}
+

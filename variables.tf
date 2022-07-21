@@ -3,6 +3,10 @@ variable "admin_password" {
   sensitive = true
 }
 
+variable "aws_account_id" {
+  type = string
+}
+
 variable "aws_account_name" {
   default = "aws"
 }
