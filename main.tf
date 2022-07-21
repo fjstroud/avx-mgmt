@@ -41,7 +41,7 @@ resource "aws_route_table" "controller" {
   vpc_id = aws_vpc.controller.id
 
   route {
-    cidr_block = var.default_route
+    cidr_block = "0.0.0.0/0" 
     gateway_id = aws_internet_gateway.controller.id
   }
 
