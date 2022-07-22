@@ -6,11 +6,6 @@ data "aws_region" "current" {}
 
 data "aws_availability_zones" "available" {}
 
-data "http" "icanhazip" {
-  url = "http://icanhazip.com"
-}
-
-
 resource "aws_vpc" "controller" {
   cidr_block = var.controller_vpc_cidr_block
 
@@ -41,7 +36,7 @@ resource "aws_route_table" "controller" {
   vpc_id = aws_vpc.controller.id
 
   route {
-    cidr_block = "0.0.0.0/0" 
+    cidr_block = "0.0.0.0/0"
     gateway_id = aws_internet_gateway.controller.id
   }
 
@@ -61,12 +56,13 @@ module "aviatrix-iam-roles" {
 }
 
 module "aviatrix-controller-build" {
-  source            = "github.com/fjstroud/terraform-modules.git//aviatrix-controller-build?ref=master"
-  vpc               = aws_vpc.controller.id
-  subnet            = aws_subnet.controller.id
-  keypair           = var.controller_kp
-  ec2role           = module.aviatrix-iam-roles.aviatrix-role-ec2-name
-  incoming_ssl_cidr = ["${chomp(data.http.icanhazip.body)}/32", var.controller_subnet_cidr, "${module.copilot_build_aws.public_ip}/32"]
+  source  = "github.com/fjstroud/terraform-modules.git//aviatrix-controller-build?ref=master"
+  vpc     = aws_vpc.controller.id
+  subnet  = aws_subnet.controller.id
+  keypair = var.controller_kp
+  ec2role = module.aviatrix-iam-roles.aviatrix-role-ec2-name
+  #incoming_ssl_cidr = ["${chomp(data.http.icanhazip.body)}/32", var.controller_subnet_cidr, "${module.copilot_build_aws.public_ip}/32"]
+  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32"]
 }
 
 module "aviatrix_controller_init" {
