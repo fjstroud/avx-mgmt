@@ -61,7 +61,6 @@ module "aviatrix-controller-build" {
   subnet  = aws_subnet.controller.id
   keypair = var.controller_kp
   ec2role = module.aviatrix-iam-roles.aviatrix-role-ec2-name
-  #incoming_ssl_cidr = ["${chomp(data.http.icanhazip.body)}/32", var.controller_subnet_cidr, "${module.copilot_build_aws.public_ip}/32"]
   incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32"]
 }
 
@@ -90,7 +89,7 @@ module "copilot_build_aws" {
     "tcp_cidrs" = {
       protocol = "tcp"
       port     = "443"
-      cidrs    = ["${chomp(data.http.icanhazip.body)}/32", "${module.aviatrix-controller-build.public_ip}/32"]
+      cidrs    = ["${module.aviatrix-controller-build.public_ip}/32"]
     }
     "udp_cidrs_1" = {
       protocol = "udp"

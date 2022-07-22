@@ -14,7 +14,3 @@ value = module.copilot_build_aws.public_ip
 output "lambda_result" {
   value = module.aviatrix_controller_init.result
 }
-
-output "public_ip" {
-  value = chomp(data.http.icanhazip.body)
-}
