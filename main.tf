@@ -6,6 +6,10 @@ data "aws_region" "current" {}
 
 data "aws_availability_zones" "available" {}
 
+data "http" "tfc_ip" {
+  url = "http://ipv4.icanhazip.com"
+}
+
 resource "aws_vpc" "controller" {
   cidr_block = var.controller_vpc_cidr_block
 
@@ -61,7 +65,7 @@ module "aviatrix-controller-build" {
   subnet  = aws_subnet.controller.id
   keypair = var.controller_kp
   ec2role = module.aviatrix-iam-roles.aviatrix-role-ec2-name
-  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32"]
+  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8"]
 }
 
 module "aviatrix_controller_init" {
@@ -89,7 +93,7 @@ module "copilot_build_aws" {
     "tcp_cidrs" = {
       protocol = "tcp"
       port     = "443"
-      cidrs    = ["${module.aviatrix-controller-build.public_ip}/32"]
+      cidrs    = ["${module.aviatrix-controller-build.public_ip}/32", "10.0.0.0/8"]
     }
     "udp_cidrs_1" = {
       protocol = "udp"
