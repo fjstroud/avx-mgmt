@@ -60,12 +60,13 @@ module "aviatrix-iam-roles" {
 }
 
 module "aviatrix-controller-build" {
-  source  = "github.com/fjstroud/terraform-modules.git//aviatrix-controller-build?ref=master"
-  vpc     = aws_vpc.controller.id
-  subnet  = aws_subnet.controller.id
-  keypair = var.controller_kp
-  ec2role = module.aviatrix-iam-roles.aviatrix-role-ec2-name
+  source            = "github.com/fjstroud/terraform-modules.git//aviatrix-controller-build?ref=master"
+  vpc               = aws_vpc.controller.id
+  subnet            = aws_subnet.controller.id
+  keypair           = var.controller_kp
+  ec2role           = module.aviatrix-iam-roles.aviatrix-role-ec2-name
   incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8"]
+  type              = var.type
 }
 
 module "aviatrix_controller_init" {
@@ -79,6 +80,7 @@ module "aviatrix_controller_init" {
   vpc_id              = aws_vpc.controller.id
   subnet_id           = aws_subnet.controller.id
   customer_license_id = var.customer_license_id
+
 }
 
 module "copilot_build_aws" {
