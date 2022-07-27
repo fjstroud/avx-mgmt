@@ -95,7 +95,7 @@ module "copilot_build_aws" {
     "tcp_cidrs" = {
       protocol = "tcp"
       port     = "443"
-      cidrs    = ["${module.aviatrix-controller-build.public_ip}/32", "10.0.0.0/8"]
+      cidrs    = ["${module.aviatrix-controller-build.public_ip}/32", "10.0.0.0/8", "203.63.159.160/32"]
     }
     "udp_cidrs_1" = {
       protocol = "udp"
