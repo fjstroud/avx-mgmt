@@ -65,7 +65,7 @@ module "aviatrix-controller-build" {
   subnet            = aws_subnet.controller.id
   keypair           = var.controller_kp
   ec2role           = module.aviatrix-iam-roles.aviatrix-role-ec2-name
-  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8"]
+  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8", "203.63.159.160/32"]
   type              = var.type
 }
 
@@ -82,7 +82,7 @@ module "aviatrix_controller_init" {
   customer_license_id = var.customer_license_id
 
 }
-
+/*
 module "copilot_build_aws" {
   source            = "github.com/AviatrixSystems/terraform-modules-copilot.git//copilot_build_aws"
   keypair           = "copilot_kp"
@@ -94,7 +94,7 @@ module "copilot_build_aws" {
   allowed_cidrs = {
     "tcp_cidrs" = {
       protocol = "tcp"
-      port     = "443"
+      port     = "443
       cidrs    = ["${module.aviatrix-controller-build.public_ip}/32", "10.0.0.0/8", "203.63.159.160/32"]
     }
     "udp_cidrs_1" = {
@@ -110,3 +110,4 @@ module "copilot_build_aws" {
   }
 }
 
+*/
