@@ -65,7 +65,8 @@ module "aviatrix-controller-build" {
   subnet            = aws_subnet.controller.id
   keypair           = var.controller_kp
   ec2role           = module.aviatrix-iam-roles.aviatrix-role-ec2-name
-  incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8", "203.63.159.160/32"]
+  #incoming_ssl_cidr = ["${module.copilot_build_aws.public_ip}/32", "${chomp(data.http.tfc_ip.body)}/32", "10.0.0.0/8", "203.63.159.160/32"]
+  incoming_ssl_cidr = ["10.0.0.0/8", "203.63.159.160/32"]
   type              = var.type
 }
 
